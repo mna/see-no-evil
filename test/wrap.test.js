@@ -79,14 +79,14 @@ describe('see-no-evil', function() {
       expect(spyErr.callCount).to.be(0)
     })
 
-    it('should call the wrapped callback without the error (null) as first argument', function() {
+    it('should call the wrapped callback with the error (null) as first argument', function() {
       var spyOk = sinon.spy(),
         w = cb(),
         f = w(spyOk)
 
       f(null, 1)
       expect(spyOk.calledOnce).to.be.ok()
-      expect(spyOk.calledWithExactly(1)).to.be.ok()
+      expect(spyOk.calledWithExactly(null, 1)).to.be.ok()
     })
 
     it('should fail if no error and no wrapped function', function() {
@@ -96,7 +96,23 @@ describe('see-no-evil', function() {
       expect(f).to.throwError()
     })
 
-    it('should call the "truthy expected" callback if arg1 is falsy', function() {
+    it('should call the "falsy" callback if arg1 is falsy', function() {
+      var spyF = sinon.spy(),
+        spyErr = sinon.spy(),
+        spyOk = sinon.spy(),
+        w = cb({
+          error: spyErr,
+          falsy: spyF
+        }),
+        f = w(spyOk)
+
+      f(null, undefined)
+      expect(spyF.calledOnce).to.be.ok()
+      expect(spyErr.callCount).to.be(0)
+      expect(spyOk.callCount).to.be(0)
+    })
+
+    it('should call the "truthy" callback if arg1 is truthy', function() {
       var spyTru = sinon.spy(),
         spyErr = sinon.spy(),
         spyOk = sinon.spy(),
@@ -106,7 +122,7 @@ describe('see-no-evil', function() {
         }),
         f = w(spyOk)
 
-      f(null, undefined)
+      f(null, {})
       expect(spyTru.calledOnce).to.be.ok()
       expect(spyErr.callCount).to.be(0)
       expect(spyOk.callCount).to.be(0)
@@ -151,7 +167,7 @@ describe('see-no-evil', function() {
           error: spy
         }),
         f = w(),
-        f2 = f.wrap(null, null, spy2)
+        f2 = f.wrap(null,{error: spy2})
 
       f(new Error())
       f2(new Error())
@@ -167,8 +183,8 @@ describe('see-no-evil', function() {
         f = w(),
         f2 = f.wrap()
 
-      f(null, false)
-      f2(null, 0)
+      f(null, true)
+      f2(null, 1)
       expect(spy.calledTwice).to.be.ok()
     })
 
@@ -179,10 +195,10 @@ describe('see-no-evil', function() {
           truthy: spy
         }),
         f = w(),
-        f2 = f.wrap(null, spy2)
+        f2 = f.wrap(null, {truthy: spy2})
 
-      f(null, '')
-      f2(null, null)
+      f(null, 's')
+      f2(null, true)
       expect(spy.calledOnce).to.be.ok()
       expect(spy2.calledOnce).to.be.ok()
     })
