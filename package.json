@@ -4,8 +4,13 @@
   "version": "0.1.0",
   "author": "Martin Angers <martin.n.angers@gmail.com> (http://hypermegatop.github.com/)",
   "main": "./index.js",
-  "dependencies": {  },
-  "devDependencies": {  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "expect.js": "0.1.x",
+    "mocha": "0.x",
+    "sinon": "1.x"
+  },
   "engines": {
     "node": ">= 0.6"
   }
