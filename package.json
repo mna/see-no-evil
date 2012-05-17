@@ -1,7 +1,7 @@
 {
   "name": "see-no-evil",
   "description": "Tiny callback cleaner library for node.js, so that error management gets out of the way.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Martin Angers <martin.n.angers@gmail.com> (http://hypermegatop.github.com/)",
   "main": "./index.js",
   "dependencies": {
@@ -13,5 +13,13 @@
   },
   "engines": {
     "node": ">= 0.6"
+  },
+  "homepage": "https://github.com/PuerkitoBio/see-no-evil",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/PuerkitoBio/see-no-evil.git"
+  },
+  "scripts": {
+    "test": "make test"
   }
 }
